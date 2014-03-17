@@ -13,13 +13,18 @@ module.exports = function(grunt) {
           'specs': 'spec/**/*.js'
         }
       }
+    },
+    watch: {
+      files: ['src/**/*.js', 'spec/**/*.js'],
+      tasks: ['jasmine:all']
     }
   });
 
   // Register tasks.
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', 'jasmine:all');
+  grunt.registerTask('default', 'watch');
 
 };
