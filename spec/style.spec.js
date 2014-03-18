@@ -1,12 +1,10 @@
 describe('Fabricator Shape Options', function () {
 	
-	var $img,
-      width = 200,
-      height = 300;
+	var $img;
 
   beforeEach(function (done) {
     $img = $('<img />');
-    $img.attr('src', 'http://placekitten.com/' + width + '/' + height);
+    $img.attr('src', './example/test.jpg');
     $('body').append($img);
     $img.load( function() {
       done();

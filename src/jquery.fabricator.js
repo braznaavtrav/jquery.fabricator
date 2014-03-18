@@ -58,10 +58,49 @@
 
   function Shape() {
     // make a shape containing each of the arguments
+    this.points = arguments;
+  }
+
+  Shape.prototype.componentToHex = function(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+
+  Shape.prototype.rgbToHex = function(r, g, b) {
+    return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
+  }
+
+  Shape.prototype.setColor = function(context) {
+    // x = average of all points x value
+    // y = average of all points y value
+    var x = 0,
+        y = 0,
+        colorData;
+
+    for (var i = this.points.length - 1; i >= 0; i--) {
+      x += this.points[i].x;
+      y += this.points[i].y;
+    };
+
+    x = x / this.points.length;
+    y = y / this.points.length;
+
+    colorData = context.getImageData(x, y, 1, 1).data
+    this.hexColor = this.rgbToHex(colorData[0], colorData[1], colorData[2]);
   }
 
   Shape.prototype.draw = function(context) {
     // draw this shape to the context passed in
+    var self = this;
+
+    context.fillStyle = self.hexColor;
+    context.beginPath();
+    context.moveTo(self.points[0].x, self.points[0].y);
+    for (var i = 1; i < self.points.length; i++) {
+      context.lineTo(self.points[i].x, self.points[i].y);
+    };
+    context.closePath();
+    context.fill();
   }
 
   Fabricator.prototype = {
@@ -95,6 +134,7 @@
         self.$el.after(self.$canvas);
         self.$el.hide();
         self.context = self.$canvas[0].getContext('2d');
+        self.context.drawImage(self.el, 0, 0);
         return true;
       } 
       else {
@@ -151,6 +191,7 @@
           // if a square can be made by going one down and one to the right
           if (self._data.points[i][x+1] && self._data.points[i+1]) {
             square = new Shape(self._data.points[i][x], self._data.points[i][x+1], self._data.points[i+1][x+1], self._data.points[i+1][x]);
+            square.setColor(self.context);
             self._data.shapes.push(square);
           }
         };
@@ -165,10 +206,14 @@
     },
 
     drawShapes: function() {
-      var self = this;
       // loop through self._data.shapes
       // for each shape
       // shape.draw(self.context)
+      var self = this;
+
+      for (var i = self._data.shapes.length - 1; i >= 0; i--) {
+        self._data.shapes[i].draw(self.context);
+      };
     }
   };
 

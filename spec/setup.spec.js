@@ -2,12 +2,12 @@ describe('Fabricator Setup', function () {
 	
 	var $img,
 			jQueryVersion = '1.11.0',
-      width = 200,
+      width = 500,
       height = 300;
 
 	beforeEach(function (done) {
     $img = $('<img />');
-    $img.attr('src', 'http://placekitten.com/' + width + '/' + height);
+    $img.attr('src', './example/test.jpg');
     $('body').append($img);
     $img.load( function() {
       width = $img.width();
