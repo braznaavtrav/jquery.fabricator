@@ -26,7 +26,10 @@
   // Create the defaults once
   var pluginName = "fabricator",
       defaults = {
-        propertyName: "value"
+        style: "triangle",
+        size: 50,
+        animation: false,
+
       };
 
   // The actual plugin constructor
@@ -57,7 +60,9 @@
       // you can add more functions like the one below and
       // call them like so: this.yourOtherFunction(this.element, this.options).
       
-      this.swapImgWithCanvas();
+      if (this.swapImgWithCanvas()) {
+        this.setUpPoints();
+      }
     },
 
     swapImgWithCanvas: function() {
@@ -74,11 +79,30 @@
           .height(self.$el.height());
         self.$el.after(self.$canvas);
         self.$el.hide();
+        return true;
       } 
       else {
         $.error('Element used must be an <img>.');
+        return false;
       }
 
+    },
+
+    setUpPoints: function() {
+      switch (this.options.style) {
+        case "square":
+          // make squares
+          break;
+        case "triangle":
+          // make triangles
+          break;
+        case "bucky":
+          // make triangles
+          // make bucky
+          break;
+        default:
+          $.error('Invalid style');
+      }
     }
   };
 

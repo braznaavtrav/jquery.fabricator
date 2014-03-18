@@ -1,4 +1,4 @@
-describe('Fabricator', function () {
+describe('Fabricator Setup', function () {
 	
 	var $img,
 			jQueryVersion = '1.11.0',
@@ -21,6 +21,12 @@ describe('Fabricator', function () {
     $img.load( function() {
       expect($img.fabricator().jquery).toBe(jQueryVersion);  
     });
+  });
+
+  it('should only work with an image', function () {
+    spyOn($, 'error');
+    $('body').fabricator();
+    expect($.error).toHaveBeenCalled();
   });
 
   it('should create a canvas element', function () {
