@@ -26,7 +26,7 @@
   // Create the defaults once
   var pluginName = "fabricator",
       defaults = {
-        style: "triangle",
+        shape: "triangle",
         size: 50,
         animation: false,
 
@@ -46,6 +46,7 @@
 
     this._defaults = defaults;
     this._name = pluginName;
+    this._data = {};
 
     this.init();
   }
@@ -89,20 +90,46 @@
     },
 
     setUpPoints: function() {
-      switch (this.options.style) {
+      var self = this;
+      self._data.points = [];
+      switch (self.options.style) {
         case "square":
           // make squares
+          self.squarePoints();
           break;
         case "triangle":
           // make triangles
+          self.trianglePoints();
           break;
         case "bucky":
           // make triangles
+          self.trianglePoints();
           // make bucky
+          self.buckyPoints();
           break;
         default:
-          $.error('Invalid style');
+          $.error('Invalid style option.');
       }
+    },
+
+    Point: function(x,y) {
+      this.x = x;
+      this.y = y;
+    },
+
+    squarePoints: function() {
+      var self = this,
+          size = self.options.size,
+          width = self.$canvas.width(),
+          height = self.$canvas.height(),
+          point;
+
+      for (var x = 0; x < width; x += size) {
+        for (var y = 0; y < height; y += size) {
+          point = new self.Point(x, y);
+          self._data.points.push(point);
+        };
+      };
     }
   };
 

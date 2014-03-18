@@ -1,4 +1,4 @@
-describe('Fabricator Style Options', function () {
+describe('Fabricator Shape Options', function () {
 	
 	var $img;
 
@@ -14,9 +14,37 @@ describe('Fabricator Style Options', function () {
 	 $img.remove();
   });
 
-  // it('should return a jquery object', function () {
+  it('square shape', function () {
+    $img.load( function() {
+      $img.fabricator({
+        shape: "square"
+      });
+    });
+    // expect(true).toBe(false);
+  });
+
+  // it('triangle shape', function () {
   //   $img.load( function() {
-  //     expect($img.fabricator().jquery).toBe(jQueryVersion);  
+  //     $img.fabricator({
+  //       shape: "triangle"
+  //     });
+  //     expect().toBe();  
+  //   });
+  // });
+
+  // it('bucky shape', function () {
+  //   $img.load( function() {
+  //     $img.fabricator({
+  //       shape: "bucky"
+  //     });
+  //     expect().toBe();  
+  //   });
+  // });
+
+  // it('should default to triangle shape', function () {
+  //   $img.load( function() {
+  //     $img.fabricator();
+  //     expect().toBe();  
   //   });
   // });
 
