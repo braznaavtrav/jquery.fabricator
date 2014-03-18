@@ -17,6 +17,14 @@ module.exports = function(grunt) {
     watch: {
       files: ['src/**/*.js', 'spec/**/*.js'],
       tasks: ['jasmine:all']
+    },
+    connect: {
+      server: {
+        options: {
+          port: 3000,
+          base: '.'
+        }
+      }
     }
   });
 
@@ -26,6 +34,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
-  grunt.registerTask('default', 'watch');
+  grunt.registerTask('default', ['connect', 'watch']);
 
 };
