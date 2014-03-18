@@ -15,11 +15,16 @@ describe('Fabricator Shape Options', function () {
 	 $img.remove();
   });
 
-  it('square shape', function () {
+  it('square shape', function (done) {
     $img.fabricator({
       shape: "square"
     });
-    // expect().toBe();
+    
+    var c = document.getElementsByTagName('canvas')[0],
+        ctx = c.getContext("2d");
+
+    expect(ctx._shapes.length).toBe(45);
+    done();
   });
 
   // it('triangle shape', function () {

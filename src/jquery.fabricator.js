@@ -101,6 +101,7 @@
     };
     context.closePath();
     context.fill();
+    context._shapes.push(this); // this is for testing purposes
   }
 
   Fabricator.prototype = {
@@ -138,6 +139,7 @@
         self.$el.after(self.$canvas);
         self.$el.hide();
         self.context = self.$canvas[0].getContext('2d');
+        self.context._shapes = [];
         self.context.drawImage(self.el, 0, 0, width, height);
         return true;
       } 
