@@ -124,17 +124,21 @@
       // insert canvas element after image
       // hide image element
 
-      var self = this;
+      var self = this,
+          width = self.$el.width(),
+          height = self.$el.height();
 
       if (self.$el.is('img')) {
         self.$canvas = $('<canvas />');
         self.$canvas
-          .width(self.$el.width())
-          .height(self.$el.height());
+          .width(width)
+          .height(height);
+        self.$canvas[0].width = width;
+        self.$canvas[0].height = height;
         self.$el.after(self.$canvas);
         self.$el.hide();
         self.context = self.$canvas[0].getContext('2d');
-        self.context.drawImage(self.el, 0, 0);
+        self.context.drawImage(self.el, 0, 0, width, height);
         return true;
       } 
       else {
