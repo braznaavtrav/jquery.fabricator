@@ -5,22 +5,23 @@ describe('Fabricator Setup', function () {
       width = 200,
       height = 300;
 
-	beforeEach(function () {
-		$img = $('<img />');
-		$img.attr('src', 'http://placekitten.com/' + width + '/' + height);
-		$('body').append($img);
-    width = $img.width();
-    height = $img.height();
+	beforeEach(function (done) {
+    $img = $('<img />');
+    $img.attr('src', 'http://placekitten.com/' + width + '/' + height);
+    $('body').append($img);
+    $img.load( function() {
+      width = $img.width();
+      height = $img.height();
+      done();
+    });
   });
 
   afterEach(function () {
-	 $img.remove();
+    $img.remove();
   });
 
   it('should return a jquery object', function () {
-    $img.load( function() {
-      expect($img.fabricator().jquery).toBe(jQueryVersion);  
-    });
+    expect($img.fabricator().jquery).toBe(jQueryVersion);  
   });
 
   it('should only work with an image', function () {
@@ -30,17 +31,13 @@ describe('Fabricator Setup', function () {
   });
 
   it('should create a canvas element', function () {
-    $img.load( function() {
-      expect($('canvas').size()).toBe(1)  
-    });
+    expect($('canvas').size()).toBe(1)  
   });
 
   it('canvas should be same size as image', function () {
-    $img.load( function() {
-      var $canvas = $('canvas');
-      expect($canvas.width()).toBe(width);
-      expect($canvas.height()).toBe(height);
-    });
+    var $canvas = $('canvas');
+    expect($canvas.width()).toBe(width);
+    expect($canvas.height()).toBe(height);
   });
 
 });

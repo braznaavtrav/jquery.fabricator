@@ -97,10 +97,6 @@
           // make squares
           self.squarePoints();
           break;
-        case "triangle":
-          // make triangles
-          self.trianglePoints();
-          break;
         case "bucky":
           // make triangles
           self.trianglePoints();
@@ -108,7 +104,8 @@
           self.buckyPoints();
           break;
         default:
-          $.error('Invalid style option.');
+          // make triangles
+          self.trianglePoints();
       }
     },
 
@@ -130,7 +127,13 @@
           self._data.points.push(point);
         };
       };
-    }
+    },
+
+    trianglePoints: function() {
+    },
+
+    buckyPoints: function() {
+    },
   };
 
   // A really lightweight plugin wrapper around the constructor,
