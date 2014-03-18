@@ -1,13 +1,16 @@
 describe('Fabricator Shape Options', function () {
 	
-	var $img;
+	var $img,
+      width = 200,
+      height = 300;
 
-	beforeEach(function () {
-		$img = $('<img />');
-		$img.attr('src', 'http://placekitten.com/200/300');
-		$('body').append($img);
-    width = $img.width();
-    height = $img.height();
+  beforeEach(function (done) {
+    $img = $('<img />');
+    $img.attr('src', 'http://placekitten.com/' + width + '/' + height);
+    $('body').append($img);
+    $img.load( function() {
+      done();
+    });
   });
 
   afterEach(function () {
@@ -15,12 +18,10 @@ describe('Fabricator Shape Options', function () {
   });
 
   it('square shape', function () {
-    $img.load( function() {
-      $img.fabricator({
-        shape: "square"
-      });
+    $img.fabricator({
+      shape: "square"
     });
-    // expect(true).toBe(false);
+    // expect().toBe();
   });
 
   // it('triangle shape', function () {

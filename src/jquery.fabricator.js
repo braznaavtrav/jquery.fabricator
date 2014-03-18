@@ -80,6 +80,7 @@
           .height(self.$el.height());
         self.$el.after(self.$canvas);
         self.$el.hide();
+        self.context = self.$canvas[0].getContext('2d');
         return true;
       } 
       else {
@@ -92,7 +93,11 @@
     setUpPoints: function() {
       var self = this;
       self._data.points = [];
-      switch (self.options.style) {
+      switch (self.options.shape) {
+        case "triangle":
+          // make squares
+          self.trianglePoints();
+          break;
         case "square":
           // make squares
           self.squarePoints();
@@ -104,8 +109,7 @@
           self.buckyPoints();
           break;
         default:
-          // make triangles
-          self.trianglePoints();
+          $.error('Invalid shape option.');
       }
     },
 
@@ -125,8 +129,10 @@
         for (var y = 0; y < height; y += size) {
           point = new self.Point(x, y);
           self._data.points.push(point);
-        };
-      };
+        }
+      }
+
+      self.setSquareColor();
     },
 
     trianglePoints: function() {
@@ -134,6 +140,16 @@
 
     buckyPoints: function() {
     },
+
+    setSquareColor: function() {
+      var self = this,
+          x,
+          y;
+
+      for (var i = 0; i < self._data.points.length; i++) {
+        self._data.points[i]
+      };
+    }
   };
 
   // A really lightweight plugin wrapper around the constructor,
