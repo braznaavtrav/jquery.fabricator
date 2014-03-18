@@ -51,6 +51,19 @@
     this.init();
   }
 
+  function Point(x,y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  function Shape() {
+    // make a shape containing each of the arguments
+  }
+
+  Shape.prototype.draw = function(context) {
+    // draw this shape to the context passed in
+  }
+
   Fabricator.prototype = {
 
     init: function() {
@@ -63,6 +76,7 @@
       
       if (this.swapImgWithCanvas()) {
         this.setUpPoints();
+        this.drawShapes();
       }
     },
 
@@ -93,62 +107,68 @@
     setUpPoints: function() {
       var self = this;
       self._data.points = [];
+      self._data.shapes = [];
       switch (self.options.shape) {
         case "triangle":
           // make squares
-          self.trianglePoints();
+          self.makeTriangles();
           break;
         case "square":
           // make squares
-          self.squarePoints();
+          self.makeSquares();
           break;
         case "bucky":
           // make triangles
-          self.trianglePoints();
+          self.makeTriangles();
           // make bucky
-          self.buckyPoints();
+          self.makeBuckies();
           break;
         default:
           $.error('Invalid shape option.');
       }
     },
 
-    Point: function(x,y) {
-      this.x = x;
-      this.y = y;
-    },
-
-    squarePoints: function() {
+    makeSquares: function() {
       var self = this,
           size = self.options.size,
           width = self.$canvas.width(),
           height = self.$canvas.height(),
-          point;
+          row = 0,
+          point,
+          square;
 
       for (var x = 0; x < width; x += size) {
+        self._data.points[row] = [];
         for (var y = 0; y < height; y += size) {
-          point = new self.Point(x, y);
-          self._data.points.push(point);
+          point = new Point(x, y);
+          self._data.points[row].push(point);
         }
+        row += 1;
       }
 
-      self.setSquareColor();
-    },
-
-    trianglePoints: function() {
-    },
-
-    buckyPoints: function() {
-    },
-
-    setSquareColor: function() {
-      var self = this,
-          x,
-          y;
-
-      for (var i = 0; i < self._data.points.length; i++) {
-        self._data.points[i]
+      for (var i = 0, pointSize = self._data.points.length; i < pointSize; i++) {
+        for (var x = 0; x < self._data.points[i].length; x++) {
+          // if a square can be made by going one down and one to the right
+          if (self._data.points[i][x+1] && self._data.points[i+1]) {
+            square = new Shape(self._data.points[i][x], self._data.points[i][x+1], self._data.points[i+1][x+1], self._data.points[i+1][x]);
+            self._data.shapes.push(square);
+          }
+        };
       };
+
+    },
+
+    makeTriangles: function() {
+    },
+
+    makeBuckies: function() {
+    },
+
+    drawShapes: function() {
+      var self = this;
+      // loop through self._data.shapes
+      // for each shape
+      // shape.draw(self.context)
     }
   };
 
