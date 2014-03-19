@@ -9,8 +9,9 @@ module.exports = function(grunt) {
           'src/**/*.js',
         ],
         options: {
-          'vendor': 'lib/**/*.js',
-          'specs': 'spec/**/*.js'
+          helpers: 'node_modules/imagediff/imagediff.js',
+          vendor: 'lib/**/*.js',
+          specs: 'spec/**/*.js'
         }
       }
     },
