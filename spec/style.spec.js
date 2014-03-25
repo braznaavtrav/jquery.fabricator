@@ -13,17 +13,22 @@ describe('Fabricator Shape Options', function () {
   });
 
   afterEach(function () {
-	 $img.remove();
+
   });
 
-  it('square shape', function (done) {
+  it('square shape', function () {
     $img.fabricator({
-      shape: "square"
+      shape: "square",
+      size: 20
     });
-    
-    var canvas = document.getElementsByTagName('canvas')[0];
-    expect(canvas).toImageDiffEqual($img, 0);
-    done();
+    var img = $('img')[0];
+    var canvas = document.getElementsByTagName('canvas')[0],
+        image1 = imagediff.toImageData(canvas),
+        image2 = imagediff.toImageData(canvas);
+
+    // expect(imagediff.isImage($img[0])).toBe(true);
+    expect(img).toImageDiffEqual(img);
+
   });
 
   // it('triangle shape', function () {

@@ -11,7 +11,8 @@ module.exports = function(grunt) {
         options: {
           helpers: 'node_modules/imagediff/imagediff.js',
           vendor: 'lib/**/*.js',
-          specs: 'spec/**/*.js'
+          specs: 'spec/**/*.js',
+          keepRunner: true
         }
       }
     },

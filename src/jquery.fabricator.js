@@ -181,9 +181,9 @@
           point,
           square;
 
-      for (var x = 0; x < width; x += size) {
+      for (var x = 0; x < width + size; x += size) {
         self._data.points[row] = [];
-        for (var y = 0; y < height; y += size) {
+        for (var y = 0; y < height + size; y += size) {
           point = new Point(x, y);
           self._data.points[row].push(point);
         }
