@@ -18,7 +18,7 @@ describe('Fabricator Shape Options', function () {
 
   it('square shape', function () {
     $img.fabricator({
-      shape: "square",
+      shape: 'square',
       size: 20
     });
     var img = $('img')[0];
@@ -28,17 +28,35 @@ describe('Fabricator Shape Options', function () {
 
     // expect(imagediff.isImage($img[0])).toBe(true);
     expect(img).toImageDiffEqual(img);
-
   });
 
-  // it('triangle shape', function () {
-  //   $img.load( function() {
-  //     $img.fabricator({
-  //       shape: "triangle"
-  //     });
-  //     expect().toBe();  
-  //   });
-  // });
+  it('triangle shape', function () {
+    $img.fabricator({
+      shape: 'triangle',
+      size: 20
+    });
+    var img = $('img')[0];
+    var canvas = document.getElementsByTagName('canvas')[0],
+        image1 = imagediff.toImageData(canvas),
+        image2 = imagediff.toImageData(canvas);
+
+    // expect(imagediff.isImage($img[0])).toBe(true);
+    expect(img).toImageDiffEqual(img);
+  });
+
+  it('bucky shape', function () {
+    $img.fabricator({
+      shape: 'bucky',
+      size: 60
+    });
+    var img = $('img')[0];
+    var canvas = document.getElementsByTagName('canvas')[0],
+        image1 = imagediff.toImageData(canvas),
+        image2 = imagediff.toImageData(canvas);
+
+    // expect(imagediff.isImage($img[0])).toBe(true);
+    expect(img).toImageDiffEqual(img);
+  });
 
   // it('bucky shape', function () {
   //   $img.load( function() {

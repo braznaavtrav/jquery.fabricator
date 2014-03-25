@@ -26,10 +26,8 @@
   // Create the defaults once
   var pluginName = "fabricator",
       defaults = {
-        shape: "triangle",
+        shape: "triangle", // square, bucky
         size: 50,
-        animation: false,
-
       };
 
   // The actual plugin constructor
@@ -154,17 +152,13 @@
       self._data.shapes = [];
       switch (self.options.shape) {
         case "triangle":
-          // make squares
           self.makeTriangles();
           break;
         case "square":
-          // make squares
           self.makeSquares();
           break;
         case "bucky":
-          // make triangles
           self.makeTriangles();
-          // make bucky
           self.makeBuckies();
           break;
         default:
@@ -204,9 +198,91 @@
     },
 
     makeTriangles: function() {
+      var self = this,
+          size = self.options.size,
+          width = self.$canvas.width(),
+          height = self.$canvas.height(),
+          row = 0,
+          point,
+          square,
+          i = 0,
+          offset;
+
+      for (var x = 0; x < width + size; x += size) {
+        self._data.points[row] = [];
+        for (var y = 0; y < height + size; y += size) {
+          offset = (i % 2 === 0) ? 0 : size / 2;
+          point = new Point(x + offset, y);
+          self._data.points[row].push(point);
+          i += 1;
+        }
+        row += 1;
+      }
+
+      for (var i = 0, rowLength = self._data.points.length; i < rowLength; i++) {
+        for (var x = 0; x < self._data.points[i].length; x++) {
+          // if a square can be made by going one down and one to the right
+          if (self._data.points[i][x+1] && self._data.points[i+1]) {
+            if (x % 2 === 0) {
+              triangle1 = new Shape(self._data.points[i][x], self._data.points[i+1][x], self._data.points[i][x+1]);
+              triangle2 = new Shape(self._data.points[i][x+1], self._data.points[i+1][x], self._data.points[i+1][x+1]);
+            }
+            else {
+              triangle1 = new Shape(self._data.points[i][x], self._data.points[i+1][x+1], self._data.points[i][x+1]);
+              triangle2 = new Shape(self._data.points[i][x], self._data.points[i+1][x], self._data.points[i+1][x+1]); 
+            }
+            triangle1.setColor(self.context);
+            triangle2.setColor(self.context);
+            self._data.shapes.push(triangle1, triangle2);
+          }
+        };
+      };
+    },
+
+    getCenterPoint: function(shape) {
+      var cx = 0,
+          cy = 0;
+
+      for (var i = shape.points.length - 1; i >= 0; i--) {
+        cx += shape.points[i].x;
+        cy += shape.points[i].y;
+      };
+
+      cx = cx / shape.points.length;
+      cy = cy / shape.points.length;
+
+      return new Point(cx, cy);
     },
 
     makeBuckies: function() {
+      var self = this,
+          centerPoint,
+          shape,
+          triangle1,
+          triangle2,
+          triangle3,
+          buckies = [];
+      // loop through all triangles
+      for (var i = self._data.shapes.length - 1; i >= 0; i--) {
+        shape = self._data.shapes[i];
+        // make bucky out of the triangle
+        centerPoint = self.getCenterPoint(shape);
+        // c 0 1
+        triangle1 = new Shape(centerPoint, shape.points[0], shape.points[1]);
+        // c 1 2
+        triangle2 = new Shape(centerPoint, shape.points[1], shape.points[2]);
+        // c 2 0
+        triangle3 = new Shape(centerPoint, shape.points[2], shape.points[0]);
+        
+        triangle1.setColor(self.context);
+        triangle2.setColor(self.context);
+        triangle3.setColor(self.context);
+        
+        buckies.push(triangle1, triangle2, triangle3);
+      };
+
+      // substitute shapes array for buckies
+      self._data.shapes = buckies;
     },
 
     drawShapes: function() {

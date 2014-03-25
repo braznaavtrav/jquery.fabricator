@@ -3,6 +3,12 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    banner: '/*!\n' +
+            ' * jQuery Fabricator v<%= pkg.version %>\n' +
+            ' * Copyright <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+            ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
+            ' */\n',
     jasmine: {
       all: {
         src: [
@@ -27,6 +33,16 @@ module.exports = function(grunt) {
           base: '.'
         }
       }
+    },
+    uglify: {
+      dist: {
+        options: {
+          banner: '<%= banner %>'
+        },
+        files: {
+          'dist/jquery.fabricator.min.js': ['src/jquery.fabricator.js']
+        }
+      }
     }
   });
 
@@ -34,6 +50,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Default task.
   grunt.registerTask('default', ['connect', 'watch']);
