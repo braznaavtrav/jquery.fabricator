@@ -206,11 +206,12 @@
           point,
           square,
           i = 0,
-          offset;
+          offset,
+          triheight = Math.sqrt(3) * size / 2;
 
       for (var x = 0; x < width + size; x += size) {
         self._data.points[row] = [];
-        for (var y = 0; y < height + size; y += size) {
+        for (var y = 0; y < height + size; y += triheight) {
           offset = (i % 2 === 0) ? 0 : size / 2;
           point = new Point(x + offset, y);
           self._data.points[row].push(point);
