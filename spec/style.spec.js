@@ -33,7 +33,7 @@ describe('Fabricator Shape Options', function () {
   it('triangle shape', function () {
     $img.fabricator({
       shape: 'triangle',
-      size: 40
+      size: 20
     });
     var img = $('img')[0];
     var canvas = document.getElementsByTagName('canvas')[0],

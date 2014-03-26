@@ -205,32 +205,42 @@
           row = 0,
           point,
           square,
-          i = 0,
-          offset,
-          triheight = Math.sqrt(3) * size / 2;
+          col,
+          offset = size / 2,
+          triheight = Math.sqrt(3) * size / 2,
+          rowEven,
+          colEven;
 
+      // make points
       for (var x = 0; x < width + size; x += size) {
         self._data.points[row] = [];
+        rowEven = row % 2 === 0;
+        col = 0
         for (var y = 0; y < height + size; y += triheight) {
-          offset = (i % 2 === 0) ? 0 : size / 2;
-          point = new Point(x + offset, y);
+          colEven = col % 2 === 0;
+          if (colEven) {
+            point = new Point(x + offset, y);
+          }
+          else {
+            point = new Point(x, y);
+          }
           self._data.points[row].push(point);
-          i += 1;
+          col += 1;
         }
         row += 1;
       }
 
+      // draw shapes
       for (var i = 0, rowLength = self._data.points.length; i < rowLength; i++) {
         for (var x = 0; x < self._data.points[i].length; x++) {
-          // if a square can be made by going one down and one to the right
           if (self._data.points[i][x+1] && self._data.points[i+1]) {
             if (x % 2 === 0) {
-              triangle1 = new Shape(self._data.points[i][x], self._data.points[i+1][x], self._data.points[i][x+1]);
-              triangle2 = new Shape(self._data.points[i][x+1], self._data.points[i+1][x], self._data.points[i+1][x+1]);
+              triangle1 = new Shape(self._data.points[i][x], self._data.points[i+1][x+1], self._data.points[i][x+1]);
+              triangle2 = new Shape(self._data.points[i][x], self._data.points[i+1][x], self._data.points[i+1][x+1]);
             }
             else {
-              triangle1 = new Shape(self._data.points[i][x], self._data.points[i+1][x+1], self._data.points[i][x+1]);
-              triangle2 = new Shape(self._data.points[i][x], self._data.points[i+1][x], self._data.points[i+1][x+1]); 
+              triangle1 = new Shape(self._data.points[i][x], self._data.points[i+1][x], self._data.points[i][x+1]);
+              triangle2 = new Shape(self._data.points[i][x+1], self._data.points[i+1][x], self._data.points[i+1][x+1]); 
             }
             triangle1.setColor(self.context);
             triangle2.setColor(self.context);
